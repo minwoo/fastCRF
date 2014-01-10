@@ -5,6 +5,10 @@
  * This software is provided under the terms of LGPL.
  */
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <cassert>
 #include <cfloat>
 #include <cmath>
@@ -70,21 +74,22 @@ int main(int argc, char** argv) {
 	////////////////////////////////////////////////////////////////
 	///	 Selecting the model
 	////////////////////////////////////////////////////////////////
-	if (config.isValid("model_type")) {
-		string type_str = config.get("model_type");
-		if (1) {
-			model_type = LinearCRF;
-			if (log != NULL)
-				model = new fastcrf::LinearCRF(log);
-			else
-				model = new fastcrf::LinearCRF();
-			train_data = new fastcrf::Data(model->getParameter());
-			dev_data = new fastcrf::Data(model->getParameter());
-			test_data = new fastcrf::Data(model->getParameter());
-			log->report("[Model = Linear-chain CRF]\n\n");
+	if (!config.isValid("model_type")) {
 
-		}
-	}	
+		log->report("Exception: invalid model type.\n");
+		return -1;
+	}
+
+	string type_str = config.get("model_type");
+	model_type = LinearCRF;
+	if (log != NULL)
+		model = new fastcrf::LinearCRF(log);
+	else
+		model = new fastcrf::LinearCRF();
+	train_data = new fastcrf::Data(model->getParameter());
+	dev_data = new fastcrf::Data(model->getParameter());
+	test_data = new fastcrf::Data(model->getParameter());
+	log->report("[Model = Linear-chain CRF]\n\n");
 
 	////////////////////////////////////////////////////////////////
 	///	 Data Files

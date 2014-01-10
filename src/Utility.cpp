@@ -5,6 +5,10 @@
  * This software is provided under the terms of LGPL.
  */
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <cassert>
 #include <cfloat>
 #include <cmath>
@@ -78,6 +82,7 @@ int Logger::report(const char *fmt, ...) {
 	/// write current time
 	if (level_ > 2) {
 		fprintf(file_, "[%s] ", getTime().c_str());
+		fflush(file_);
 	}
 	
 	/// write the message
@@ -85,13 +90,15 @@ int Logger::report(const char *fmt, ...) {
 		va_list argptr;
 		va_start(argptr, fmt);
 		ret = vfprintf(file_, fmt, argptr);
+		fflush(file_);
+
 		/// standard out
 		if (level_ > 1) {
 			vfprintf(stderr, fmt, argptr);
+			fflush(stderr);
 		}
 		va_end(argptr);
 	}
-	fflush(file_);
 
 	return ret;
 }
@@ -102,6 +109,7 @@ int Logger::report(size_t level, const char *fmt, ...) {
 	/// write current time
 	if (level > 2) {
 		fprintf(file_, "[%s] ", getTime().c_str());
+		fflush(file_);
 	}
 	
 	/// write the message
@@ -109,12 +117,14 @@ int Logger::report(size_t level, const char *fmt, ...) {
 		va_list argptr;
 		va_start(argptr, fmt);
 		ret = vfprintf(file_, fmt, argptr);
+		fflush(file_);
+
 		if (level > 1) {
 			vfprintf(stderr, fmt, argptr);
+			fflush(stderr);
 		}
 		va_end(argptr);
 	}
-	fflush(file_);
 
 	return ret;
 }

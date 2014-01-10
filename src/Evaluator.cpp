@@ -333,6 +333,7 @@ double Evaluator::addLL(double p) {
 
 double Evaluator::subtractLL(double p) {
 	loglikelihood += p;
+	return loglikelihood;
 }
 
 double Evaluator::getObjFunc() {

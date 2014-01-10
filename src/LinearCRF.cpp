@@ -875,6 +875,8 @@ bool LinearCRF::test(Data* test_data, Option option) {
 	logger_->report("  MacroF1 = \t\t%8.3f\n", test_eval.macroF1()[2]);
 	
 	test_eval.print(logger_);
+
+	return true;
 }
 
 /** Regularization.

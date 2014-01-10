@@ -5,6 +5,10 @@
  * This software is provided under the terms of LGPL.
  */
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <cassert>
 #include <cfloat>
 #include <cmath>
